@@ -1,11 +1,16 @@
 const express = require('express')
 const server =  express()
+const path = require('path')
 
+server.set("view engine","ejs")
+
+server.set("views",path.join(__dirname,'template'))
 //path argument
 server.get('/home/:id',(request,response)=>{
     const data = request.params.id;
     console.log(data);
-    response.send("this is a home directory");
+    response.render('home')
+    // response.send("this is a home directory");
 })
 
 //query argument
