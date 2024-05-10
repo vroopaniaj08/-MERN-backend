@@ -39,7 +39,25 @@ router.put('/update/:id',async(request,response)=>{
             where : {id:req}
         })
         if(emp){
-            response.json({status:true,data:emp})
+            response.json({status:true,msg:"data successful"})
+        }
+        else{
+            response.json({status:false,msg:"unsuccessful"})
+        }
+    }
+    catch(err){
+        response.json({status:false,error:err.message})
+    }
+})
+
+router.delete('/delete_person/:id',async(request,response)=>{
+    try{
+        let req = request.params.id
+        let emp = await Employee.destroy({
+            where:{id:req}
+        })
+        if(emp){
+            response.json({status:true,msg:"deleted successful"})
         }
         else{
             response.json({status:false,msg:"unsuccessful"})
