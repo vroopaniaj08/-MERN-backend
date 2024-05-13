@@ -1,9 +1,10 @@
 const express = require('express')
 const server = express()
+const userrouter = require('./route/userroutes')
 
 
-
-
+server.use(express.json())
+server.use('/user',userrouter)
 
 
 

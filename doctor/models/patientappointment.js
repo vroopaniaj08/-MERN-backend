@@ -11,14 +11,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      PatientAppointment.belongsTo(models.Docter,{foreignKey:"doctor_id",as:"doctor_info"})
+      PatientAppointment.belongsTo(models.Doctor,{foreignKey:"doctor_id",as:"doctor_info"})
       PatientAppointment.belongsTo(models.Patient,{foreignKey:"patient_id",as:"patient_info"})
     }
   }
   PatientAppointment.init({
-    date: DataTypes.DATE,
-    description: DataTypes.STRING,
-    status: DataTypes.STRING
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'PatientAppointment',
