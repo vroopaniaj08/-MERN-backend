@@ -2,15 +2,15 @@ const router = require('express').Router()
 // const { where } = require('sequelize')
 // const { response } = require('express')
 // const { request } = require('express')
-const {User,Doctor,Patient} = require('../models/index')
+const {User,Patient} = require('../models/index')
 
 router.post('/save',async(request,response)=>{
     try{
-        const {username,password,type,name,phone,Specialization} = request.body
+        const {username,password,type,name,phone,dob,gender,city} = request.body
         let udata = await User.create({username, password, type})
 
         if(udata){
-            let ele = await Doctor.create({name,phone,Specialization,user_id:udata.id})
+            let ele = await Patient.create({name,phone,dob,gender,city,user_id:udata.id})
             response.json({status:true,msg:"saved",data:udata})
         }
         else{
@@ -41,20 +41,6 @@ router.post('/signin',async(request,response)=>{
 
 })
 
-router.get('/getdata_doctor',async(request,response)=>{
-    try{
-        let udata = await Doctor.findAll()
-        if(udata){
-            response.json({status:true,data:udata,msg:"successful"})
-        }
-        else{
-            response.json({status:false,msg:"unsuccessful"})
-        }
-    }
-    catch(err){
-        response.json({status:false,error:err.message})
-    }
-})
 
 router.put('/update/:id',async(request,response)=>{
     try{
@@ -66,10 +52,10 @@ router.put('/update/:id',async(request,response)=>{
         console.log(1)
         console.log(udata)
         if(udata[0]>0){
-            let ele = await Doctor.update(request.body,{
+            let ele = await Patient.update(request.body,{
                 where:{user_id:uid}
             })
-            response.json({status:true,data:ele,msg:"successful"})
+            response.json({status:true,data:udata,msg:"successful"})
         }
         else{
             response.json({status:false,msg:"unsuccessful"})
@@ -87,25 +73,10 @@ router.delete('/delete/:id',async(request,response)=>{
             where:{id:uid}
         })
         if(udata){
-            let ele = await Doctor.destroy({
+            let ele = await Patient.destroy({
                 where:{user_id:uid}
             })
             response.json({status:true,data:ele,msg:"successful"})
-        }
-        else{
-            response.json({status:false,msg:"unsuccessful"})
-        }
-    }
-    catch(err){
-        response.json({status:false,error:err.message})
-    }
-})
-
-router.get('/getdata_patient',async(request,response)=>{
-    try{
-        let udata = await Patient.findAll()
-        if(udata){
-            response.json({status:true,data:udata,msg:"successful"})
         }
         else{
             response.json({status:false,msg:"unsuccessful"})
