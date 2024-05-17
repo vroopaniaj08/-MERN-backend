@@ -6,15 +6,23 @@ const {User,Patient} = require('../models/index')
 
 router.post('/save',async(request,response)=>{
     try{
-        const {username,password,type,name,phone,dob,gender,city} = request.body
-        let udata = await User.create({username, password, type})
+        const {username,password,name,phone,dob,gender,city} = request.body
 
-        if(udata){
-            let ele = await Patient.create({name,phone,dob,gender,city,user_id:udata.id})
-            response.json({status:true,msg:"saved",data:udata})
+        const type = request.type
+        if(type == 'reception'){
+
+            let udata = await User.create({username, password, type:"patient"})
+    
+            if(udata){
+                let ele = await Patient.create({name,phone,dob,gender,city,user_id:udata.id})
+                response.json({status:true,msg:"saved",data:udata})
+            }
+            else{
+                response.json({status:false,msg:"not saved"})
+            }
         }
         else{
-            response.json({status:false,msg:"not saved"})
+            response.json({status:false,msg:"unauthorized access"})
         }
     }
     catch(err){

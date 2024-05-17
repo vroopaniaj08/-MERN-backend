@@ -21,10 +21,17 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      User_id:{
+      user_id:{
         type: Sequelize.INTEGER,
         reference:{
           model:"Users",
+          key:"id"
+        }
+      },
+      doctor_id:{
+        type:Sequelize.INTEGER,
+        reference:{
+          model:"Doctors",
           key:"id"
         }
       },

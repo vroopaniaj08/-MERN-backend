@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Receptionlist.belongsTo(models.User,{foreignKey:"user_id",as:"user_info"})
+      Receptionlist.belongsTo(models.Doctor,{foreignKey:"doctor_id",as:"doctor_info"})
     }
   }
   Receptionlist.init({

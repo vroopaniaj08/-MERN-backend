@@ -1,14 +1,19 @@
 const express = require('express')
 const server = express()
-const doctorrouter = require('./route/userroutes')
 const patientrouter = require('./route/patient')
 const adminrouter = require('./route/admin')
+const dotenv = require('dotenv')
+const authRouter = require('./route/authRouter')
+
+
 
 server.use(express.json())
 
-server.use('/user',doctorrouter)
 server.use('/patient',patientrouter)
 server.use('/admin',adminrouter)
+server.use('/auth',authRouter)
+
+dotenv.config()
 
 
 
