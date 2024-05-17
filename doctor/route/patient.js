@@ -74,24 +74,25 @@ router.put('/update/:id',async(request,response)=>{
     }
 })
 
-router.delete('/delete/:id',async(request,response)=>{
-    try{
-        let uid = request.params.id
-        let udata = await User.destroy({
-            where:{id:uid}
-        })
-        if(udata){
-            let ele = await Patient.destroy({
-                where:{user_id:uid}
-            })
-            response.json({status:true,data:ele,msg:"successful"})
-        }
-        else{
-            response.json({status:false,msg:"unsuccessful"})
-        }
-    }
-    catch(err){
-        response.json({status:false,error:err.message})
-    }
-})
 module.exports = router
+
+// router.delete('/delete/:id',async(request,response)=>{
+//     try{
+//         let uid = request.params.id
+//         let udata = await User.destroy({
+//             where:{id:uid}
+//         })
+//         if(udata){
+//             let ele = await Patient.destroy({
+//                 where:{user_id:uid}
+//             })
+//             response.json({status:true,data:ele,msg:"successful"})
+//         }
+//         else{
+//             response.json({status:false,msg:"unsuccessful"})
+//         }
+//     }
+//     catch(err){
+//         response.json({status:false,error:err.message})
+//     }
+// })

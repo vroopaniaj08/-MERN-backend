@@ -15,7 +15,7 @@ router.post('/save_reception',async(request,response)=>{
         if(type == "doctor"){
             let udata = await User.create({username,password,type:"reception"});
             if(udata){
-                let ele = await Receptionlist.create({name,phone,city,user_id:udata.id})
+                let ele = await Receptionlist.create({name,phone,city,user_id:udata.id,doctor_id:request.user_id})
                 response.json({status:true,data:udata,msg:"succesful"})
             }
             else{
@@ -31,6 +31,27 @@ router.post('/save_reception',async(request,response)=>{
     }
 })
 
-
+router.get('/get_reception',async(request,response)=>{
+    try{
+        const type = request.type
+        if(type == 'doctor'){
+            let udata = await Receptionlist.findAll({
+                where:{doctor_id:request.user_id}
+            })
+            if(udata){
+                response.json({status:true,data:udata})
+            }
+            else{
+                response.json({status:false,msg:"unsuccessful"})
+            }
+        }
+        else{
+            response.json({status:false,msg:"unauthorized access"})
+        }
+    }
+    catch(err){
+        response.json({status:false,error:err.message})
+    }
+})
 
 module.exports = router

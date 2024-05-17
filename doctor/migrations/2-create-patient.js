@@ -39,6 +39,20 @@ module.exports = {
           key:"id"
         }
       },
+      doctor_id:{
+        type:Sequelize.INTEGER,
+        reference:{
+          model:"Doctors",
+          key:"id"
+        }
+      },
+      reception_id:{
+        type:Sequelize.INTEGER,
+        reference:{
+          model:"Receptionlists",
+          key:"id"
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
