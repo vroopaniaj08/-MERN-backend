@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { Op } = require('sequelize')
 // const { where } = require('sequelize')
 // const { response } = require('express')
 // const { request } = require('express')
@@ -14,8 +15,8 @@ router.post('/save',async(request,response)=>{
             let udata = await User.create({username, password, type:"patient"})
     
             if(udata){
-                let ele = await Patient.create({name,phone,dob,gender,city,user_id:udata.id})
-                response.json({status:true,msg:"saved",data:udata})
+                let ele = await Patient.create({name,phone,dob,gender,city,user_id:udata.id,reception_id:request.user_id})
+                response.json({status:true,msg:"saved",data:ele})
             }
             else{
                 response.json({status:false,msg:"not saved"})
@@ -30,24 +31,51 @@ router.post('/save',async(request,response)=>{
     }
 })
 
+router.get('/get_patient',async(request,response)=>{
+    try{
+        const type = request.type
+        if(type == 'reception'){
+            let udata = await Patient.findAll({
+                where:{reception_id:request.user_id}
+            })
+            if(udata){
+                response.json({status:true,data:udata})
+            }
+            else{
+                response.json({status:false,msg:"data not found"})
+            }
+        }
+        else{
+            response.json({status:false,msg:"unauthorized access"})
+        }
+    }
+    catch(err){
+        response.json({status:false,error:err.message})
+    }
+})
 
 router.put('/update/:id',async(request,response)=>{
     try{
         let uid = request.params.id
         console.log(uid)
-        let udata = await User.update(request.body,{
-            where:{id:uid}
-        })
-        console.log(1)
-        console.log(udata)
-        if(udata[0]>0){
-            let ele = await Patient.update(request.body,{
-                where:{user_id:uid}
+        const type = request.type
+        if(type == "reception"){
+            let udata = await Patient.update(request.body,{
+                where:{
+                    [Op.and]:[{reception_id:request.user_id},{id:uid}]
+                }
             })
-            response.json({status:true,data:udata,msg:"successful"})
+            // console.log(1)
+            console.log(udata)
+            if(udata[0]>0){
+                response.json({status:true,data:udata,msg:"successful"})
+            }
+            else{
+                response.json({status:false,msg:"unsuccessful"})
+            }
         }
         else{
-            response.json({status:false,msg:"unsuccessful"})
+            response.json({status:false,msg:"unauthorized access"})
         }
     }
     catch(err){
