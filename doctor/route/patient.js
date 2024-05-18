@@ -30,25 +30,6 @@ router.post('/save',async(request,response)=>{
     }
 })
 
-router.post('/signin',async(request,response)=>{
-    try{
-        // let {username,password}  = request.body
-        // let udata = await User.findOne({username,password})
-        let obj =  request.body
-        let udata = await User.findOne({where:{username:obj.username,password:obj.password}})
-        console.log(udata)
-        if(udata){
-            response.json({status:true,data:udata,msg:"signin successsful"})
-        }
-        else{
-            response.json({status:false,msg:"signin unsuccesssful"})
-        }
-    }catch (err){
-        response.json({status:false,error:err.message})
-    }
-
-})
-
 
 router.put('/update/:id',async(request,response)=>{
     try{
@@ -77,22 +58,43 @@ router.put('/update/:id',async(request,response)=>{
 module.exports = router
 
 // router.delete('/delete/:id',async(request,response)=>{
-//     try{
-//         let uid = request.params.id
-//         let udata = await User.destroy({
-//             where:{id:uid}
-//         })
-//         if(udata){
-//             let ele = await Patient.destroy({
-//                 where:{user_id:uid}
-//             })
+    //     try{
+        //         let uid = request.params.id
+        //         let udata = await User.destroy({
+            //             where:{id:uid}
+            //         })
+            //         if(udata){
+                //             let ele = await Patient.destroy({
+                    //                 where:{user_id:uid}
+                    //             })
 //             response.json({status:true,data:ele,msg:"successful"})
 //         }
 //         else{
-//             response.json({status:false,msg:"unsuccessful"})
-//         }
-//     }
-//     catch(err){
-//         response.json({status:false,error:err.message})
-//     }
-// })
+    //             response.json({status:false,msg:"unsuccessful"})
+    //         }
+    //     }
+    //     catch(err){
+        //         response.json({status:false,error:err.message})
+        //     }
+        // })
+
+
+
+        // router.post('/signin',async(request,response)=>{
+        //     try{
+        //         // let {username,password}  = request.body
+        //         // let udata = await User.findOne({username,password})
+        //         let obj =  request.body
+        //         let udata = await User.findOne({where:{username:obj.username,password:obj.password}})
+        //         console.log(udata)
+        //         if(udata){
+        //             response.json({status:true,data:udata,msg:"signin successsful"})
+        //         }
+        //         else{
+        //             response.json({status:false,msg:"signin unsuccesssful"})
+        //         }
+        //     }catch (err){
+        //         response.json({status:false,error:err.message})
+        //     }
+        
+        // })

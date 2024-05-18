@@ -36,13 +36,49 @@ router.get('/get_reception',async(request,response)=>{
         const type = request.type
         if(type == 'doctor'){
             let udata = await Receptionlist.findAll({
-                where:{doctor_id:request.user_id}
+                where:{doctor_id:request.user_id},
+                include:{
+                    model:User,
+                    as:"user_info",
+                    attributes:['username','password']
+                },
+                // include:{
+                //     model:Doctor,
+                //     as:"doctor_info",
+                //     attributes:['name','phone','Specialization']
+                // }
             })
             if(udata){
                 response.json({status:true,data:udata})
             }
             else{
                 response.json({status:false,msg:"unsuccessful"})
+            }
+        }
+        else{
+            response.json({status:false,msg:"unauthorized access"})
+        }
+    }
+    catch(err){
+        response.json({status:false,error:err.message})
+    }
+})
+
+router.put('/update',async(request,response)=>{
+    try{
+        const type = request.type
+        console.log(type)
+        console.log(request.user_id)
+        if(type == 'reception'){
+            let udata = await Receptionlist.update(request.body,{
+                where:{user_id:request.user_id}
+            })
+            console.log(udata)
+            if(udata){
+                response.json({status:true,data:udata})
+            }
+            else{
+                response.json({status:false,msg:"data not found"})
             }
         }
         else{

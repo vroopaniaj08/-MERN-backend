@@ -5,6 +5,8 @@ const router = require('express').Router()
 const {User} = require('../models/index')
 const doctorrouter = require('./userroutes')
 const receptionrouter = require('./reception')
+const adminrouter = require('./admin')
+const patientrouter = require('./patient')
 
 const jwtObj = require('../config/jwtManager')
 
@@ -39,7 +41,9 @@ router.use((request,response,next)=>{
     })
 })
 
-router.use('/user',doctorrouter)
+router.use('/doctor',doctorrouter)
 router.use('/reception',receptionrouter)
+router.use('/admin',adminrouter)
+router.use('/patient',patientrouter)
 
 module.exports = router
