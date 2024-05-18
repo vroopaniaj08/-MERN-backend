@@ -4,7 +4,7 @@ const express = require('express')
 const router = express.Router()
 // const patient = require('../models/patient');
 // const receptionlist = require('../models/receptionlist');
-const {User,Receptionlist} = require('../models/index');
+const {User,Receptionlist,Doctor} = require('../models/index');
 // const router = require('./userroutes');
 
 router.post('/save_reception',async(request,response)=>{
@@ -34,20 +34,21 @@ router.post('/save_reception',async(request,response)=>{
 router.get('/get_reception',async(request,response)=>{
     try{
         const type = request.type
+        // console.log(request.user_id)
         if(type == 'doctor'){
             let udata = await Receptionlist.findAll({
                 where:{doctor_id:request.user_id},
-                include:{
+                include:[{
                     model:User,
                     as:"user_info",
                     attributes:['username','password']
                 },
-                // include:{
-                //     model:Doctor,
-                //     as:"doctor_info",
-                //     attributes:['name','phone','Specialization']
-                // }
-            })
+                {
+                    model:Doctor,
+                    as:"doctor_info",
+                    attributes:['name','phone','Specialization']
+                }
+            ]})
             if(udata){
                 response.json({status:true,data:udata})
             }
