@@ -15,6 +15,7 @@ router.post('/signin',async(request,response)=>{
         // let {username,password}  = request.body
         // let udata = await User.findOne({username,password})
         let obj =  request.body
+        console.log(obj)
         let udata = await User.findOne({where:{username:obj.username,password:obj.password}})
         console.log(udata)
         if(udata){

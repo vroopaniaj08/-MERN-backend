@@ -12,6 +12,6 @@ server.use('/auth',authRouter)
 
 server.listen(9696,()=>{
     console.log(
-        "server is running on port 9696"
+        "server is running on  9696"
     )
 })
