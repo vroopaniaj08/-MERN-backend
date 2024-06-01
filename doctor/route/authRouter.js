@@ -7,6 +7,7 @@ const doctorrouter = require('./userroutes')
 const receptionrouter = require('./reception')
 const adminrouter = require('./admin')
 const patientrouter = require('./patient')
+const appointmentrouter= require('./appointment')
 
 const jwtObj = require('../config/jwtManager')
 
@@ -46,5 +47,6 @@ router.use('/doctor',doctorrouter)
 router.use('/reception',receptionrouter)
 router.use('/admin',adminrouter)
 router.use('/patient',patientrouter)
+router.use('/appointment',appointmentrouter)
 
 module.exports = router
